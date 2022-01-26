@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>
+    function add_user() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/tb/add");
+        xhr.setRequestHeader("Content-type", "application/json");
+        if(check_tel()) {
+            var params = {
+                "lastname":     document.getElementById("lastname").value,
+                "firstname":    document.getElementById("firstname").value,
+                "workphone":    document.getElementById("workphone").value,
+                "mobilephone":  document.getElementById("mobilephone").value,
+                "mail":         document.getElementById("mail").value,
+                "birthday":     document.getElementById("birthday").value};
+            xhr.send(JSON.stringify(params));
+            xhr.onload = function () {
+                var json = JSON.parse(xhr.responseText);
+                if (json.size !== "") {
+                    document.getElementById("filename").setAttribute("value", json.response);
+                    check_add();
+                } else {
+                    alert("Ошибка при добавлении");
+                }
+            }
+        } else {
+            alert("Коды телефонов не совпадают");
+        }
+    }
+    function check_tel() {
+        var fsttel = document.getElementById("workphone").value;
+        var sectel = document.getElementById("mobilephone").value;
+        fsttel = fsttel.toString().substring(0,3);
+        sectel = sectel.toString().substring(0,3);
+        return fsttel === sectel;
+    }
+    function check_add() {
+        var filename = document.getElementById("filename").value;
+        if(filename) {
+            document.getElementById("prepare").disabled = true;
+            document.getElementById("cancel").disabled = false;
+            document.getElementById("submit").disabled = false;
+        } else {
+            document.getElementById("prepare").disabled = false;
+            document.getElementById("cancel").disabled = true;
+            document.getElementById("submit").disabled = true;
+        }
+    }
+    function manipulation_user(i) {
+        var xhr = new XMLHttpRequest();
+        if (i === 0) {
+            xhr.open("POST", "/tb/cancel");
+        } else if (i === 1) {
+            xhr.open("POST", "/tb/move");
+        }
+        xhr.setRequestHeader("Content-type", "application/json");
+        var filename = document.getElementById("filename").value;
+        var params = {"response": filename,};
+        xhr.send(JSON.stringify(params));
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                document.getElementById("filename").value = "";
+                document.getElementById("lastname").value = "";
+                document.getElementById("firstname").value = "";
+                document.getElementById("workphone").value = "";
+                document.getElementById("mobilephone").value = "";
+                document.getElementById("mail").value = "";
+                document.getElementById("birthday").value = "";
+                check_add();
+            } else {
+                if (i === "0") {
+                    alert("Ошибка при удалении");
+                } else {
+                    alert("Ошибка при отправлении");
+                }
+            }
+        }
+    }
+</script>
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление в телефонную книгу</title>
+</head>
+<body>
+<h1>Добавление</h1>
+<form onsubmit="add_user(); return false;">
+    <input type="hidden" id="filename" class="filename" value="">
+    <input type="text" id="lastname" class="lastname" required maxlength="20" placeholder="Фамилия">
+    <input type="text" id="firstname" class="firstname" required maxlength="10" placeholder="Имя">
+    <input type="tel" id="workphone" class="workphone" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}" placeholder="Рабочий телефон">
+    <input type="tel" id="mobilephone" class="mobilephone" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}" placeholder="Мобильный телефон">
+    <input type="email" id="mail" class="mail" required placeholder="е-маил">
+    <input type="date" id="birthday" min="1900-01-01" required class="birthday">
+    <input type="submit" id="prepare" class="prepare" value="Добавить">
+</form>
+<input type="submit" id="cancel" class="cancel" disabled onclick="manipulation_user(0)" value="Очистить">
+<input type="submit" id="submit" class="submit" disabled onclick="manipulation_user(1)" value="Отправить">
+
+</body>
+</html>

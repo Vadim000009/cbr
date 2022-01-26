@@ -1,0 +1,1 @@
+{"birthday":"янв. 4, 2022","firstname":"Никита","mail":"ass@sad.ads","work":"Улица Пушкина\nДом Колотушкина","workphone":"918-123-41-23","mobilephone":"918-123-42-12","lastname":"Павлов"}

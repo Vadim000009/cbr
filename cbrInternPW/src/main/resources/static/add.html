@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>
+    function add_user() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/pow/add");
+        xhr.setRequestHeader("Content-type", "application/json");
+        var lastname = document.getElementById("lastname").value;
+        var firstname = document.getElementById("firstname").value;
+        var placeOfWork = document.getElementById("placeOfWork").value;
+        var addressOfWork = document.getElementById("addressOfWork").value;
+        var params = {
+            "lastname": lastname,
+            "firstname": firstname,
+            "placeOfWork": placeOfWork,
+            "addressOfWork": addressOfWork};
+        xhr.send(JSON.stringify(params));
+        xhr.onload = function () {
+            if (xhr.status !== 200) {
+                alert("Ошибка при добавлении");
+            } else {
+                alert("Данные успешно добавлены!");
+                document.getElementById("lastname").value = "";
+                document.getElementById("firstname").value = "";
+                document.getElementById("placeOfWork").value = "";
+                document.getElementById("addressOfWork").value = "";
+            }
+        }
+    }
+    function getAll() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/pow/getAll");
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onload = function () {
+            if (xhr.status !== 200) {
+                alert("Неудача!");
+            } else {
+                alert("Успех!");
+                var json = JSON.parse(xhr.responseText);
+                my_ins = document.getElementById("table");
+                to_del = document.getElementById("temp_table");
+                to_del.parentNode.removeChild(to_del);
+                var tbl = document.createElement('table');
+                tbl.setAttribute("id", "temp_table");
+                for (var i = 0; i <= json.size; i++) {
+                    var tr = tbl.insertRow();
+                    var td = tr.insertCell();
+                    for (var j = 0; i <= 3; j++) {
+                        td.append(json[0]);
+                    }
+                    my_ins.appendChild(tbl, my_ins);
+                }
+            }
+        }
+        xhr.send();
+    }
+</script>
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление</title>
+</head>
+<body>
+<h1>Место работы</h1>
+<input type="hidden" id="filename" class="filename" value="">
+<input type="text" id="lastname" class="lastname" maxlength="20" required placeholder="Фамилия">
+<input type="text" id="firstname" class="firstname" maxlength="10" required placeholder="Имя">
+<input type="text" id="placeOfWork" class="placeOfWork" maxlength="250" required placeholder="Место работы">
+<input type="text" id="addressOfWork" class="addressOfWork" maxlength="250" required placeholder="Адрес работы">
+<input type="submit" id="prepareWork" class="prepareWork" onclick="add_user()" value="Добавить">
+<br>
+<input type="submit" id="getAll" class="getAll" onclick="getAll()" value="Получить список всех пользователей">
+<div id="table">
+    <div id="temp_table"></div>
+</div>
+</body>
+</html>

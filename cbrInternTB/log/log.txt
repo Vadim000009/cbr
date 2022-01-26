@@ -1,0 +1,8 @@
+янв. 27, 2022 1:57:56 AM ru.cbrtb.cbrinterntb.util.LogFile info
+INFO: undefined успешно удалён
+янв. 27, 2022 1:58:10 AM ru.cbrtb.cbrinterntb.util.LogFile info
+INFO: \data_270122_0158.json успешно создан в директории prepare
+янв. 27, 2022 2:37:44 AM ru.cbrtb.cbrinterntb.util.LogFile info
+INFO: \data_270122_0237.json успешно создан в директории prepare
+янв. 27, 2022 2:38:24 AM ru.cbrtb.cbrinterntb.util.LogFile info
+INFO: \data_270122_0237.json успешно удалён

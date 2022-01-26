@@ -1,0 +1,8 @@
+{
+  "lastname": "Соколова",
+  "firstname": "Алиса",
+  "workphone": "918-123-41-23",
+  "mobilephone": "918-123-42-12",
+  "mail": "ass@sad.ads",
+  "birthday": "дек. 29, 2021"
+}{"birthday":"дек. 29, 2021","firstname":"Алиса","mail":"ass@sad.ads","work":"Улица Пушкина\nДом Колотушкина","workphone":"918-123-41-23","mobilephone":"918-123-42-12","lastname":"Соколова"}
